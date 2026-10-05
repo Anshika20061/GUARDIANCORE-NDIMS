@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { ShieldCheck, LayoutDashboard, Boxes, Truck, ClipboardList, Wrench, FileDown, LogOut, Search, Plus, RefreshCw, AlertTriangle, Menu, X, Activity } from 'lucide-react';
-
+import Chatbot from "./Chatbot";
 const API = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace(/\/$/, '');
 const getToken = () => sessionStorage.getItem('gc_token') || '';
 async function api(path, options={}) {
@@ -79,6 +79,7 @@ export default function App() {
         <footer>GuardianCore · Academic mini-project · Use fictional demonstration data only.</footer>
       </div>
     </main>
+    <Chatbot />
     {modal&&<div className="modal-backdrop" onMouseDown={e=>{if(e.target===e.currentTarget)setModal(false)}}><form className="modal" onSubmit={saveItem}><div className="modal-title"><div><p className="eyebrow">INVENTORY REGISTER</p><h2>{edit?'Edit item':'Add inventory item'}</h2></div><button type="button" className="ghost" onClick={()=>setModal(false)}><X/></button></div><div className="form-grid"><Field label="Item name" value={form.name} set={v=>setForm({...form,name:v})} required/><Field label="Category" value={form.category} set={v=>setForm({...form,category:v})} required/>{!edit&&<Field label="Opening quantity" type="number" min="0" value={form.quantity} set={v=>setForm({...form,quantity:v})} required/>}<Field label="Minimum stock" type="number" min="0" value={form.min_stock} set={v=>setForm({...form,min_stock:v})} required/><Field label="Unit" value={form.unit} set={v=>setForm({...form,unit:v})}/><label>Condition<select value={form.condition_status} onChange={e=>setForm({...form,condition_status:e.target.value})}><option>Available</option><option>Damaged</option><option>Under Maintenance</option></select></label><Field label="Store label" value={form.location_label} set={v=>setForm({...form,location_label:v})}/></div><div className="modal-actions"><button type="button" className="secondary" onClick={()=>setModal(false)}>Cancel</button><button className="primary" disabled={busy}>{busy?'Saving…':'Save item'}</button></div></form></div>}
   </div>;
 }
